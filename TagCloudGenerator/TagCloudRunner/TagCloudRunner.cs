@@ -18,7 +18,7 @@ public class TagCloudRunner : ITagCloudRunner
     public Result<None> Run(TagCloudOptions options)
     {
         if (string.IsNullOrEmpty(options.InputFile) || !File.Exists(options.InputFile))
-            return Result.Fail<None>($"Input file '{options.InputFile}' not found. Provide a correct path.");
+            return Result.Fail<None>($"Input file '{options.InputFile}' was not found. Provide a correct path.");
 
         if (string.IsNullOrEmpty(options.BlacklistFile) || !File.Exists(options.BlacklistFile))
             return Result.Fail<None>($"Blacklist file '{options.BlacklistFile}' was not found. Provide a correct path.");

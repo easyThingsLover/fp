@@ -13,6 +13,8 @@ public class Visualizer(ICloudLayouter layouter) : IVisualizer
         Color backgroundColor,
         string font)
     {
+        if(imageWidth <= 0 || imageHeight <= 0)
+            return Result.Fail<Bitmap>("Size is not in the correct format .");
         var families = FontFamily.Families.Select(f => f.Name).ToArray();
         if (!families.Any(name => string.Equals(name, font, StringComparison.OrdinalIgnoreCase)))
             return Result.Fail<Bitmap>($"Font '{font}' not found on the system.");
