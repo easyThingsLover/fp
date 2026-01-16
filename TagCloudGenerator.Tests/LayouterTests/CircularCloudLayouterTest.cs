@@ -10,10 +10,12 @@ public class CircularCloudLayouterTest
 {
     private CircularCloudLayouter layouter;
     private Point center;
+    private Size imageSize;
 
     [SetUp]
     public void SetUp()
     {
+        imageSize =  new Size(1000, 1000);
         center = new Point(100, 100);
         layouter = new CircularCloudLayouter(new SpiralPointGenerator());
     }
@@ -23,7 +25,7 @@ public class CircularCloudLayouterTest
     {
         var size = new Size(20, 20);
 
-        var rect = layouter.PutNextRectangle(size, center);
+        var rect = layouter.PutNextRectangle(size, center, imageSize).GetValueOrThrow();
 
         var rectCenter = new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
         rectCenter.Should().Be(center);
@@ -34,8 +36,8 @@ public class CircularCloudLayouterTest
     {
         var size = new Size(20, 20);
 
-        var r1 = layouter.PutNextRectangle(size, center);
-        var r2 = layouter.PutNextRectangle(size, center);
+        var r1 = layouter.PutNextRectangle(size, center, imageSize);
+        var r2 = layouter.PutNextRectangle(size, center, imageSize);
 
         r1.Should().NotBe(r2);
     }
@@ -48,7 +50,7 @@ public class CircularCloudLayouterTest
 
         for (var i = 0; i < 100; i++)
         {
-            var next = layouter.PutNextRectangle(size, center);
+            var next = layouter.PutNextRectangle(size, center, imageSize).GetValueOrThrow();
             foreach (var prev in placed)
                 next.IntersectsWith(prev).Should().BeFalse();
             placed.Add(next);
@@ -60,7 +62,7 @@ public class CircularCloudLayouterTest
     {
         var size = new Size(20, 20);
         var rects = Enumerable.Range(0, 100)
-            .Select(_ => layouter.PutNextRectangle(size, center))
+            .Select(_ => layouter.PutNextRectangle(size, center, imageSize).GetValueOrThrow())
             .ToArray();
 
         var centers = rects.Select(GetCenter).ToArray();
@@ -84,8 +86,8 @@ public class CircularCloudLayouterTest
             new Size(5, 30)
         };
 
-        var rects1 = sizes.Select(s => layouter1.PutNextRectangle(s, center)).ToArray();
-        var rects2 = sizes.Select(s => layouter2.PutNextRectangle(s, center)).ToArray();
+        var rects1 = sizes.Select(s => layouter1.PutNextRectangle(s, center, imageSize)).ToArray();
+        var rects2 = sizes.Select(s => layouter2.PutNextRectangle(s, center, imageSize)).ToArray();
 
         rects1.Should().BeEquivalentTo(rects2);
     }

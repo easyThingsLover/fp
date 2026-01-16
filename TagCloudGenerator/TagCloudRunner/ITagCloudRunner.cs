@@ -1,6 +1,8 @@
+using ResultOf;
+
 namespace TagsCloudVisualization;
 
 public interface ITagCloudRunner
 {
-    void Run(TagCloudOptions options);
+    Result<None> Run(TagCloudOptions options);
 }

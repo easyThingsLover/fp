@@ -4,5 +4,5 @@ namespace TagsCloudVisualization;
 
 public interface ICloudLayouter
 {
-    Rectangle PutNextRectangle(Size rectangleSize,  Point center);
+    ResultOf.Result<Rectangle> PutNextRectangle(Size rectangleSize, Point center, Size imageSize);
 }

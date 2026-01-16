@@ -32,9 +32,11 @@ public static class Program
         };
 
         var runner = new Composition().Root;
-        runner.Run(options);
+        var result = runner.Run(options);
+        if (result.IsSuccess) return 0;
+        Console.Error.WriteLine("Error: " + result.Error);
+        return 1;
 
-        return 0;
     }
 
     private static int AskForPointGenerator()
